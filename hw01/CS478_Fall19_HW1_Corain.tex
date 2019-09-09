@@ -90,11 +90,11 @@ At this point, the application is ready to be compiled and sent to a device. In 
   \label{device_debug}
 \end{figure}
 
-\item Build and run the application through the command provided by the IDE.
+\item Issue the build and run commands.
 
 \end{itemize}
 
-The application consequently runs on the specified device and shows the screen reported in figure \ref{device_run}.
+Once the build process has terminated, the application is installed on the connected device and launched, showing the screen in figure \ref{device_run}.
 
 \begin{figure}[H]
   \centering
@@ -105,7 +105,7 @@ The application consequently runs on the specified device and shows the screen r
 
 \section{Question 4}
 
-In order to allow the application to output a \emph{Logcat} statement with a \texttt{INFO} priority level, the static method \texttt{i()} of the \texttt{Log} class has been used. Specifically, the following line has been added to the \texttt{onCreate()} method as provided by Android Studio:
+In order to allow the application to output a \emph{Logcat} statement with a \texttt{INFO} priority level, the static method \texttt{i()} of the \texttt{Log} class has been used. Specifically, the following line has been added to the \texttt{onCreate()} method of the \texttt{MainActivity} class provided by Android Studio:
 
 \begin{quote}
 \begin{verbatim}
@@ -113,7 +113,15 @@ Log.i(TAG, "Matteo Corain was here!");
 \end{verbatim}
 \end{quote}
 
-Where \texttt{TAG} is a string constant set to \texttt{"MainActivity"}. As an effect, when the application is started on a device, the corresponding line is printed on the \emph{Logcat} tab of Android Studio, as shown in figure \ref{logcat}.
+Where \texttt{TAG} is a string constant defined as:
+
+\begin{quote}
+\begin{verbatim}
+private final static String TAG = "MainActivity";
+\end{verbatim}
+\end{quote}
+
+As an effect, when the application is started on a device, the corresponding line is printed on the \emph{Logcat} tab of Android Studio, as shown in figure \ref{logcat}.
 
 \begin{figure}[H]
   \centering
