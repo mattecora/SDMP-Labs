@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQ_ADDR_CODE && resultCode == RESULT_OK && data != null) {
             // Update address text
             address = data.getStringExtra("address");
-            addressText.setText("Inserted address: " + address);
+            addressText.setText(getString(R.string.inserted_address_text, address));
         } else {
             // Show a toast message
             Toast.makeText(this, "You have inserted no text!", Toast.LENGTH_SHORT).show();

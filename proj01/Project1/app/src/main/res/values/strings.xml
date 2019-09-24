@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Project1</string>
+    <string name="welcome_text">Welcome!</string>
+    <string name="address_btn_text">Address</string>
+    <string name="map_btn_text">Map</string>
+    <string name="no_address_text">No address inserted.</string>
+    <string name="inserted_address_text">Inserted address: %s</string>
+    <string name="header1_text">Project #1</string>
+    <string name="header2_text">CS 478 - Fall 2019</string>
+    <string name="header3_text">Matteo Corain 650088272</string>
+    <string name="address_hint_text">Address</string>
+    <string name="address_msg_text">Input the address to show on map:</string>
 </resources>
