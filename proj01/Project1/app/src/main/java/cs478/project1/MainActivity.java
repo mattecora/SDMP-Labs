@@ -6,16 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.widget.Button;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private String address;
-
-    private Button addressButton;
-    private Button mapButton;
     private TextView addressText;
 
     private final static int REQ_ADDR_CODE = 1;
@@ -25,22 +22,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        address = "";
-        addressButton = findViewById(R.id.addressButton);
-        mapButton = findViewById(R.id.mapButton);
+        // Try to read the address from the saved Bundle
+        address = savedInstanceState == null ? null : savedInstanceState.getString("address");
         addressText = findViewById(R.id.addressText);
 
-        addressButton.setOnClickListener(v -> startAddressActivity());
-        mapButton.setOnClickListener(v -> startMapActivity());
+        // Update the view if address was saved
+        if (address != null)
+            addressText.setText(getString(R.string.inserted_address_text, address));
     }
 
-    private void startAddressActivity() {
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        // Necessary to keep the address when the screen is rotated
+        super.onSaveInstanceState(outState);
+        outState.putString("address", address);
+    }
+
+    public void startAddressActivity(View view) {
         // Start AddressActivity with explicit intent
-        Intent intent = new Intent(this, AddressActivity.class);
+        Intent intent = new Intent(getApplicationContext(), AddressActivity.class);
         startActivityForResult(intent, REQ_ADDR_CODE);
     }
 
-    private void startMapActivity() {
+    public void startMapActivity(View view) {
         // Start map application with implicit intent
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + Uri.encode(address)));
         startActivity(intent);
@@ -57,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             addressText.setText(getString(R.string.inserted_address_text, address));
         } else {
             // Show a toast message
-            Toast.makeText(this, "You have inserted no text!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.no_inserted_text_toast), Toast.LENGTH_SHORT).show();
         }
     }
 
