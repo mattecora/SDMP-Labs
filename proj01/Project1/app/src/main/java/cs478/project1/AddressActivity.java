@@ -19,7 +19,7 @@ public class AddressActivity extends AppCompatActivity {
         addressInput = findViewById(R.id.addressInput);
         addressInput.setOnEditorActionListener((v, id, event) -> {
             // Return to MainActivity if the user has finished
-            if (id == EditorInfo.IME_ACTION_DONE)
+            if (id == EditorInfo.IME_ACTION_UNSPECIFIED || id == EditorInfo.IME_ACTION_DONE)
                 returnToMain();
             return true;
         });
@@ -35,6 +35,8 @@ public class AddressActivity extends AppCompatActivity {
             intent.putExtra("address", addressInput.getText().toString());
             setResult(RESULT_OK, intent);
         }
+
+        // In any case, terminate the current activity
         finish();
     }
 

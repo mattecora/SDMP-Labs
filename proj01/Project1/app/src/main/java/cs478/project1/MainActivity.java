@@ -45,9 +45,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startMapActivity(View view) {
-        // Start map application with implicit intent
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + Uri.encode(address)));
-        startActivity(intent);
+        if (address != null) {
+            // Start map application with implicit intent
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + Uri.encode(address)));
+            startActivity(intent);
+        } else {
+            // Show a toast message
+            Toast.makeText(this, getString(R.string.no_inserted_address_toast), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -59,9 +64,6 @@ public class MainActivity extends AppCompatActivity {
             // Update address text
             address = data.getStringExtra("address");
             addressText.setText(getString(R.string.inserted_address_text, address));
-        } else {
-            // Show a toast message
-            Toast.makeText(this, getString(R.string.no_inserted_text_toast), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -5,7 +5,7 @@
     <string name="map_btn_text">Map</string>
     <string name="no_address_text">No address inserted.</string>
     <string name="inserted_address_text">Inserted address: %s</string>
-    <string name="no_inserted_text_toast">You have inserted no text!</string>
+    <string name="no_inserted_address_toast">You have inserted no address!</string>
     <string name="header1_text">Project #1</string>
     <string name="header2_text">CS 478 - Fall 2019</string>
     <string name="header3_text">Matteo Corain 650088272</string>
