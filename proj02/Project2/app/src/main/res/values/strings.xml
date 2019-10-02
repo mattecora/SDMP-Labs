@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Project2</string>
+
+    <string name="header1_text">Project #2</string>
+    <string name="header2_text">CS 478 - Fall 2019</string>
+    <string name="header3_text">Matteo Corain 650088272</string>
+
+    <string name="brand_model_text">%s %s</string>
+    <string name="screen_size_price_text">%s - %s</string>
+
+    <string name="brand_model_empty_text">Brand Model</string>
+    <string name="screen_size_price_empty_text">Screen size - Price</string>
+    <string name="phone_image_empty_descriptor">Phone image</string>
+
+    <string name="spec_name_empty_text">Spec name</string>
+    <string name="spec_value_empty_text">Spec value</string>
+</resources>
