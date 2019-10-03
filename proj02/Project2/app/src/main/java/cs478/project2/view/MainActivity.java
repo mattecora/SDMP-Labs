@@ -1,12 +1,14 @@
 package cs478.project2.view;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public static final int RC_PICTURE_ACTIVITY = 1;
 
-    ListView phonesList;
+    private ListView phonesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         phonesList = findViewById(R.id.phonesList);
         phonesList.setAdapter(new PhoneListAdapter(this, PhoneDatabase.ALL_PHONES));
 
+        // Enable the context menu for the phones list
+        registerForContextMenu(phonesList);
+
         // Set the listeners for the phones list
         phonesList.setOnItemClickListener(this);
         phonesList.setOnItemLongClickListener(this);
@@ -37,32 +42,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        // Create a dialog window
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // Disable the LongClickListener (otherwise, it gets called by showContextMenuForChild)
+        phonesList.setOnItemLongClickListener(null);
 
-        // Set the title with the model of the phone
-        builder.setTitle(PhoneDatabase.ALL_PHONES.get(position).getModel());
+        // Show the context menu
+        phonesList.showContextMenuForChild(view);
 
-        // Set the dialog items from string array and click listeners
-        builder.setItems(getResources().getStringArray(R.array.click_menu_items), (dialog, which) -> {
-            switch (which) {
-                case 0:
-                    // First option selected, show phone specs
-                    startSpecActivity(PhoneDatabase.ALL_PHONES.get(position));
-                    break;
-                case 1:
-                    // Second option selected, show phone image
-                    startPictureActivity(PhoneDatabase.ALL_PHONES.get(position));
-                    break;
-                case 2:
-                    // Third option selected, show phone website
-                    startBrowserActivity(PhoneDatabase.ALL_PHONES.get(position));
-                    break;
-            }
-        });
-
-        // Create and show the dialog
-        builder.create().show();
+        // Restore the LongClickListener
+        phonesList.setOnItemLongClickListener(this);
     }
 
     @Override
@@ -71,6 +58,36 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         startPictureActivity(PhoneDatabase.ALL_PHONES.get(position));
 
         // Do not call onItemClick also
+        return true;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        // Inflate the menu layout
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.phone_context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        // Get the info on the selected item
+        AdapterView.AdapterContextMenuInfo info	= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        switch (item.getItemId()) {
+            case R.id.actionShowSpecs:
+                // First option selected, show phone specs
+                startSpecActivity(PhoneDatabase.ALL_PHONES.get(info.position));
+                break;
+            case R.id.actionShowPicture:
+                // Second option selected, show phone image
+                startPictureActivity(PhoneDatabase.ALL_PHONES.get(info.position));
+                break;
+            case R.id.actionShowWebsite:
+                // Third option selected, show phone website
+                startBrowserActivity(PhoneDatabase.ALL_PHONES.get(info.position));
+                break;
+        }
+
         return true;
     }
 
