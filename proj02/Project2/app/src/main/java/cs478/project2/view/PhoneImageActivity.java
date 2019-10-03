@@ -21,16 +21,21 @@ public class PhoneImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_image);
 
+        // Get serializable Phone object from intent
         phone = (Phone) getIntent().getSerializableExtra("phone");
         if (phone == null)
             finish();
 
+        // Set activity title to phone model
         setTitle(phone.getModel());
+
+        // Set image to high-res phone image
         bigPhoneImage = findViewById(R.id.bigPhoneImage);
         bigPhoneImage.setImageResource(phone.getHighResPicture());
     }
 
     public void startBrowserActivity(View view) {
+        // Create implicit intent and start the browser
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(phone.getUrl()));
         startActivity(intent);
     }

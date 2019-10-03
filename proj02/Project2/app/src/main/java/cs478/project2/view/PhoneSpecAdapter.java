@@ -39,16 +39,20 @@ public class PhoneSpecAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        // Possibly recycle old view
         if (convertView == null)
             convertView = LayoutInflater.from(context).inflate(R.layout.phone_spec_item, parent, false);
 
+        // Get current PhoneSpec object and retrieve views
         PhoneSpec spec = specs.get(position);
         TextView specNameText = convertView.findViewById(R.id.specNameText);
         TextView specValueText = convertView.findViewById(R.id.specValueText);
 
+        // Set views to match current Phone
         specNameText.setText(spec.getSpecName());
         specValueText.setText(spec.getSpecValue());
 
         return convertView;
     }
+
 }

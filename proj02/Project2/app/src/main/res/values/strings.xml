@@ -14,4 +14,10 @@
 
     <string name="spec_name_empty_text">Spec name</string>
     <string name="spec_value_empty_text">Spec value</string>
+
+    <string-array name="click_menu_items">
+        <item>Show specs</item>
+        <item>Show picture</item>
+        <item>Show website</item>
+    </string-array>
 </resources>

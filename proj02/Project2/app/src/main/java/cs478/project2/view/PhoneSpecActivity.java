@@ -17,15 +17,18 @@ public class PhoneSpecActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_spec);
 
+        // Get serializable Phone object from intent
         Phone phone = (Phone) getIntent().getSerializableExtra("phone");
         if (phone == null)
             finish();
 
+        // Retrieve views
         ImageView phoneThumbnailImageSpec = findViewById(R.id.phoneThumbnailImageSpec);
         TextView brandModelTextSpec = findViewById(R.id.brandModelTextSpec);
         TextView screenPriceTextSpec = findViewById(R.id.screenPriceTextSpec);
         ListView specsList = findViewById(R.id.specsList);
 
+        // Set views to match current Phone
         phoneThumbnailImageSpec.setImageResource(phone.getLowResPicture());
         brandModelTextSpec.setText(getString(R.string.brand_model_text, phone.getBrand(), phone.getModel()));
         screenPriceTextSpec.setText(getString(R.string.screen_size_price_text, phone.getScreenSize(), phone.getPriceRange()));

@@ -40,14 +40,17 @@ public class PhoneListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        // Possibly recycle old view
         if (convertView == null)
             convertView = LayoutInflater.from(context).inflate(R.layout.phone_list_item, parent, false);
 
+        // Get current Phone object and retrieve views
         Phone phone = phones.get(position);
         TextView brandModelText = convertView.findViewById(R.id.brandModelText);
         TextView screenPriceText = convertView.findViewById(R.id.screenPriceText);
         ImageView phoneThumbnailImage = convertView.findViewById(R.id.phoneThumbnailImage);
 
+        // Set views to match current Phone
         brandModelText.setText(context.getString(R.string.brand_model_text, phone.getBrand(), phone.getModel()));
         screenPriceText.setText(context.getString(R.string.screen_size_price_text, phone.getScreenSize(), phone.getPriceRange()));
         phoneThumbnailImage.setImageResource(phone.getLowResPicture());
