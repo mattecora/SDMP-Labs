@@ -9,7 +9,7 @@ public class Phone implements Serializable {
     private String brand, model, screenSize, priceRange;
 
     // Properties for phone pictures
-    private Integer lowResPicture, highResPicture;
+    private Integer pictureResource;
 
     // Properties for website
     private String url;
@@ -17,13 +17,12 @@ public class Phone implements Serializable {
     // Properties for detailed view
     private List<PhoneSpec> specs;
 
-    public Phone(String brand, String model, String screenSize, String priceRange, Integer lowResPicture, Integer highResPicture, String url, List<PhoneSpec> specs) {
+    public Phone(String brand, String model, String screenSize, String priceRange, Integer pictureResource, String url, List<PhoneSpec> specs) {
         this.brand = brand;
         this.model = model;
         this.screenSize = screenSize;
         this.priceRange = priceRange;
-        this.lowResPicture = lowResPicture;
-        this.highResPicture = highResPicture;
+        this.pictureResource = pictureResource;
         this.url = url;
         this.specs = specs;
     }
@@ -44,12 +43,8 @@ public class Phone implements Serializable {
         return priceRange;
     }
 
-    public Integer getLowResPicture() {
-        return lowResPicture;
-    }
-
-    public Integer getHighResPicture() {
-        return highResPicture;
+    public Integer getPictureResource() {
+        return pictureResource;
     }
 
     public String getUrl() {

@@ -9,7 +9,7 @@ public class PhoneDatabase {
 
     public final static Phone IPHONE_11 =
             new Phone("Apple", "iPhone 11", "6.1 inches", "$699-$849",
-                    R.drawable.small_iphone_11, R.drawable.iphone_11, "https://www.apple.com/iphone-11/",
+                    R.drawable.iphone_11, "https://www.apple.com/iphone-11/",
                     Arrays.asList(
                             new PhoneSpec("Dimensions", "150.9 x 75.7 x 8.3 mm (5.94 x 2.98 x 0.33 in)"),
                             new PhoneSpec("Weight", "194 g (6.84 oz)"),
@@ -25,7 +25,7 @@ public class PhoneDatabase {
 
     public final static Phone IPHONE_11_PRO =
             new Phone("Apple", "iPhone 11 Pro", "5.8 inches", "$999-$1349",
-                    R.drawable.small_iphone_11_pro, R.drawable.iphone_11_pro, "https://www.apple.com/iphone-11-pro/",
+                    R.drawable.iphone_11_pro, "https://www.apple.com/iphone-11-pro/",
                     Arrays.asList(
                             new PhoneSpec("Dimensions", "144 x 71.4 x 8.1 mm (5.67 x 2.81 x 0.32 in)"),
                             new PhoneSpec("Weight", "188 g (6.63 oz)"),
@@ -41,7 +41,7 @@ public class PhoneDatabase {
 
     public final static Phone IPHONE_11_PRO_MAX =
             new Phone("Apple", "iPhone 11 Pro Max", "6.5 inches", "$1099-$1449",
-                    R.drawable.small_iphone_11_pro_max, R.drawable.iphone_11_pro_max, "https://www.apple.com/iphone-11-pro/",
+                    R.drawable.iphone_11_pro_max, "https://www.apple.com/iphone-11-pro/",
                     Arrays.asList(
                             new PhoneSpec("Dimensions", "158 x 77.8 x 8.1 mm (6.22 x 3.06 x 0.32 in)"),
                             new PhoneSpec("Weight", "226 g (7.97 oz)"),
@@ -57,7 +57,7 @@ public class PhoneDatabase {
 
     public final static Phone PIXEL_3 =
             new Phone("Google", "Pixel 3", "5.5 inches", "$799-$899",
-                    R.drawable.small_pixel_3, R.drawable.pixel_3, "https://store.google.com/product/pixel_3",
+                    R.drawable.pixel_3, "https://store.google.com/product/pixel_3",
                     Arrays.asList(
                             new PhoneSpec("Dimensions", "145.6 x 68.2 x 7.9 mm (5.73 x 2.69 x 0.31 in)"),
                             new PhoneSpec("Weight", "148 g (5.22 oz)"),
@@ -73,7 +73,7 @@ public class PhoneDatabase {
 
     public final static Phone PIXEL_3_XL =
             new Phone("Google", "Pixel 3 XL", "6.3 inches", "$899-$999",
-                    R.drawable.small_pixel_3_xl, R.drawable.pixel_3_xl, "https://store.google.com/product/pixel_3",
+                    R.drawable.pixel_3_xl, "https://store.google.com/product/pixel_3",
                     Arrays.asList(
                             new PhoneSpec("Dimensions", "158 x 76.7 x 7.9 mm (6.22 x 3.02 x 0.31 in)"),
                             new PhoneSpec("Weight", "184 g (6.49 oz)"),
@@ -89,7 +89,7 @@ public class PhoneDatabase {
 
     public final static Phone PIXEL_3A =
             new Phone("Google", "Pixel 3a", "5.5 inches", "$399",
-                    R.drawable.small_pixel_3a, R.drawable.pixel_3a, "https://store.google.com/product/pixel_3",
+                    R.drawable.pixel_3a, "https://store.google.com/product/pixel_3",
                     Arrays.asList(
                             new PhoneSpec("Dimensions", "151.3 x 70.1 x 8.2 mm (5.96 x 2.76 x 0.32 in)"),
                             new PhoneSpec("Weight", "147 g (5.19 oz)"),
@@ -105,7 +105,7 @@ public class PhoneDatabase {
 
     public final static Phone PIXEL_3A_XL =
             new Phone("Google", "Pixel 3a XL", "6.3 inches", "$479",
-                    R.drawable.small_pixel_3a_xl, R.drawable.pixel_3a_xl, "https://store.google.com/product/pixel_3",
+                    R.drawable.pixel_3a_xl, "https://store.google.com/product/pixel_3",
                     Arrays.asList(
                             new PhoneSpec("Dimensions", "160.1 x 76.1 x 8.2 mm (6.30 x 3.00 x 0.32 in)"),
                             new PhoneSpec("Weight", "167 g (5.89 oz)"),
@@ -121,7 +121,7 @@ public class PhoneDatabase {
 
     public final static Phone GALAXY_S10E =
             new Phone("Samsung", "Galaxy S10e", "5.8 inches", "$749-$849",
-                    R.drawable.small_galaxy_s10e, R.drawable.galaxy_s10e, "https://www.samsung.com/us/mobile/galaxy-s10/",
+                    R.drawable.galaxy_s10e, "https://www.samsung.com/us/mobile/galaxy-s10/",
                     Arrays.asList(
                             new PhoneSpec("Dimensions", "142.2 x 69.9 x 7.9 mm (5.60 x 2.75 x 0.31 in)"),
                             new PhoneSpec("Weight", "150 g (5.29 oz)"),
@@ -137,7 +137,7 @@ public class PhoneDatabase {
 
     public final static Phone GALAXY_S10 =
             new Phone("Samsung", "Galaxy S10", "6.1 inches", "$899-$1149",
-                    R.drawable.small_galaxy_s10, R.drawable.galaxy_s10, "https://www.samsung.com/us/mobile/galaxy-s10/",
+                    R.drawable.galaxy_s10, "https://www.samsung.com/us/mobile/galaxy-s10/",
                     Arrays.asList(
                             new PhoneSpec("Dimensions", "149.9 x 70.4 x 7.8 mm (5.90 x 2.77 x 0.31 in)"),
                             new PhoneSpec("Weight", "157 g (5.54 oz)"),
@@ -153,7 +153,7 @@ public class PhoneDatabase {
 
     public final static Phone GALAXY_S10PLUS =
             new Phone("Samsung", "Galaxy S10+", "6.4 inches", "$999-$1249",
-                    R.drawable.small_galaxy_s10_plus, R.drawable.galaxy_s10_plus, "https://www.samsung.com/us/mobile/galaxy-s10/",
+                    R.drawable.galaxy_s10_plus, "https://www.samsung.com/us/mobile/galaxy-s10/",
                     Arrays.asList(
                             new PhoneSpec("Dimensions", "157.6 x 74.1 x 7.8 mm (6.20 x 2.92 x 0.31 in)"),
                             new PhoneSpec("Weight", "175 g (6.17 oz)"),

@@ -6,50 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".view.PhoneSpecActivity">
 
-    <ImageView
-        android:id="@+id/phoneThumbnailImageSpec"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:contentDescription="@string/phone_image_empty_descriptor"
+    <include
+        android:id="@+id/phoneInfo"
+        layout="@layout/phone_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
-
-    <TextView
-        android:id="@+id/brandModelTextSpec"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:singleLine="false"
-        android:text="@string/brand_model_empty_text"
-        android:textSize="22sp"
-        app:layout_constraintStart_toEndOf="@+id/phoneThumbnailImageSpec"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/screenPriceTextSpec"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/screen_size_price_empty_text"
-        app:layout_constraintStart_toEndOf="@+id/phoneThumbnailImageSpec"
-        app:layout_constraintTop_toBottomOf="@+id/brandModelTextSpec" />
 
     <ListView
         android:id="@+id/specsList"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneThumbnailImageSpec" />
+        app:layout_constraintTop_toBottomOf="@+id/phoneInfo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

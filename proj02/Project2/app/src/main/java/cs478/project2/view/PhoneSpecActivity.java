@@ -23,15 +23,19 @@ public class PhoneSpecActivity extends AppCompatActivity {
             finish();
 
         // Retrieve views
-        ImageView phoneThumbnailImageSpec = findViewById(R.id.phoneThumbnailImageSpec);
-        TextView brandModelTextSpec = findViewById(R.id.brandModelTextSpec);
-        TextView screenPriceTextSpec = findViewById(R.id.screenPriceTextSpec);
+        TextView brandModelText = findViewById(R.id.brandModelText);
+        TextView screenPriceText = findViewById(R.id.screenPriceText);
+        ImageView phoneThumbnailImage = findViewById(R.id.phoneThumbnailImage);
         ListView specsList = findViewById(R.id.specsList);
 
         // Set views to match current Phone
-        phoneThumbnailImageSpec.setImageResource(phone.getLowResPicture());
-        brandModelTextSpec.setText(getString(R.string.brand_model_text, phone.getBrand(), phone.getModel()));
-        screenPriceTextSpec.setText(getString(R.string.screen_size_price_text, phone.getScreenSize(), phone.getPriceRange()));
+        brandModelText.setText(getString(R.string.brand_model_text, phone.getBrand(), phone.getModel()));
+        screenPriceText.setText(getString(R.string.screen_size_price_text, phone.getScreenSize(), phone.getPriceRange()));
+
+        phoneThumbnailImage.setImageBitmap(ImageResizer.scaleImage(
+                this, phone.getPictureResource(),
+                phoneThumbnailImage.getLayoutParams().width, phoneThumbnailImage.getLayoutParams().height));
+
         specsList.setAdapter(new PhoneSpecAdapter(this, phone.getSpecs()));
     }
 

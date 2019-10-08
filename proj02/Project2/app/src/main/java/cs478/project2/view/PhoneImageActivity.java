@@ -31,7 +31,7 @@ public class PhoneImageActivity extends AppCompatActivity {
 
         // Set image to high-res phone image
         bigPhoneImage = findViewById(R.id.bigPhoneImage);
-        bigPhoneImage.setImageResource(phone.getHighResPicture());
+        bigPhoneImage.setImageResource(phone.getPictureResource());
     }
 
     public void startBrowserActivity(View view) {

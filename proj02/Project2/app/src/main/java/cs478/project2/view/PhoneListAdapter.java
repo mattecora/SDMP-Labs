@@ -53,7 +53,10 @@ public class PhoneListAdapter extends BaseAdapter {
         // Set views to match current Phone
         brandModelText.setText(context.getString(R.string.brand_model_text, phone.getBrand(), phone.getModel()));
         screenPriceText.setText(context.getString(R.string.screen_size_price_text, phone.getScreenSize(), phone.getPriceRange()));
-        phoneThumbnailImage.setImageResource(phone.getLowResPicture());
+
+        phoneThumbnailImage.setImageBitmap(ImageResizer.scaleImage(
+                context, phone.getPictureResource(),
+                phoneThumbnailImage.getLayoutParams().width, phoneThumbnailImage.getLayoutParams().height));
 
         return convertView;
     }
