@@ -15,6 +15,25 @@ import cs478.project2.model.Phone;
 
 public class PhoneListAdapter extends BaseAdapter {
 
+    private class ViewHolder {
+        final TextView brandModelText, screenPriceText;
+        final ImageView phoneThumbnailImage;
+
+        ViewHolder(View convertView) {
+            brandModelText = convertView.findViewById(R.id.brandModelText);
+            screenPriceText = convertView.findViewById(R.id.screenPriceText);
+            phoneThumbnailImage = convertView.findViewById(R.id.phoneThumbnailImage);
+        }
+
+        void update(Phone phone) {
+            brandModelText.setText(context.getString(R.string.brand_model_text, phone.getBrand(), phone.getModel()));
+            screenPriceText.setText(context.getString(R.string.screen_size_price_text, phone.getScreenSize(), phone.getPriceRange()));
+            phoneThumbnailImage.setImageBitmap(ImageResizer.scaleImage(
+                    context, phone.getPictureResource(),
+                    phoneThumbnailImage.getLayoutParams().width, phoneThumbnailImage.getLayoutParams().height));
+        }
+    }
+
     private Context context;
     private List<Phone> phones;
 
@@ -41,22 +60,15 @@ public class PhoneListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Possibly recycle old view
-        if (convertView == null)
+        if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.phone_list_item, parent, false);
+            convertView.setTag(new ViewHolder(convertView));
+        }
 
-        // Get current Phone object and retrieve views
+        // Get current Phone object and update views
         Phone phone = phones.get(position);
-        TextView brandModelText = convertView.findViewById(R.id.brandModelText);
-        TextView screenPriceText = convertView.findViewById(R.id.screenPriceText);
-        ImageView phoneThumbnailImage = convertView.findViewById(R.id.phoneThumbnailImage);
-
-        // Set views to match current Phone
-        brandModelText.setText(context.getString(R.string.brand_model_text, phone.getBrand(), phone.getModel()));
-        screenPriceText.setText(context.getString(R.string.screen_size_price_text, phone.getScreenSize(), phone.getPriceRange()));
-
-        phoneThumbnailImage.setImageBitmap(ImageResizer.scaleImage(
-                context, phone.getPictureResource(),
-                phoneThumbnailImage.getLayoutParams().width, phoneThumbnailImage.getLayoutParams().height));
+        ViewHolder vh = (ViewHolder) convertView.getTag();
+        vh.update(phone);
 
         return convertView;
     }

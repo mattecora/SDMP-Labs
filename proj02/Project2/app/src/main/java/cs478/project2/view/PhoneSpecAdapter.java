@@ -14,6 +14,20 @@ import cs478.project2.model.PhoneSpec;
 
 public class PhoneSpecAdapter extends BaseAdapter {
 
+    private class ViewHolder {
+        final TextView specNameText, specValueText;
+
+        ViewHolder(View convertView) {
+            specNameText = convertView.findViewById(R.id.specNameText);
+            specValueText = convertView.findViewById(R.id.specValueText);
+        }
+
+        void update(PhoneSpec spec) {
+            specNameText.setText(spec.getSpecName());
+            specValueText.setText(spec.getSpecValue());
+        }
+    }
+
     private Context context;
     private List<PhoneSpec> specs;
 
@@ -40,17 +54,15 @@ public class PhoneSpecAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Possibly recycle old view
-        if (convertView == null)
+        if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.phone_spec_item, parent, false);
+            convertView.setTag(new ViewHolder(convertView));
+        }
 
-        // Get current PhoneSpec object and retrieve views
+        // Get current PhoneSpec object and update views
         PhoneSpec spec = specs.get(position);
-        TextView specNameText = convertView.findViewById(R.id.specNameText);
-        TextView specValueText = convertView.findViewById(R.id.specValueText);
-
-        // Set views to match current Phone
-        specNameText.setText(spec.getSpecName());
-        specValueText.setText(spec.getSpecValue());
+        ViewHolder vh = (ViewHolder) convertView.getTag();
+        vh.update(spec);
 
         return convertView;
     }
