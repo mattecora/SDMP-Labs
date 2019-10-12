@@ -23,8 +23,10 @@ public class PhoneImageActivity extends AppCompatActivity {
 
         // Get serializable Phone object from intent
         phone = (Phone) getIntent().getSerializableExtra("phone");
-        if (phone == null)
+        if (phone == null) {
             finish();
+            return;
+        }
 
         // Set activity title to phone model
         setTitle(phone.getModel());

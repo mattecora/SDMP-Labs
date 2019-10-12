@@ -15,6 +15,7 @@ import cs478.project2.model.Phone;
 
 public class PhoneListAdapter extends BaseAdapter {
 
+    // Using ViewHolder pattern to limit the number of findViewById() operations
     private class ViewHolder {
         final TextView brandModelText, screenPriceText;
         final ImageView phoneThumbnailImage;
@@ -36,10 +37,12 @@ public class PhoneListAdapter extends BaseAdapter {
 
     private Context context;
     private List<Phone> phones;
+    private LayoutInflater inflater;
 
     public PhoneListAdapter(Context context, List<Phone> phones) {
         this.context = context;
         this.phones = phones;
+        this.inflater = LayoutInflater.from(context);
     }
 
     @Override
@@ -61,7 +64,7 @@ public class PhoneListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         // Possibly recycle old view
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.phone_list_item, parent, false);
+            convertView = inflater.inflate(R.layout.phone_list_item, parent, false);
             convertView.setTag(new ViewHolder(convertView));
         }
 

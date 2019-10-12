@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        // NOTE: implemented as in the first version, short click opens menu
+
         // Disable the LongClickListener (otherwise, it gets called by showContextMenuForChild)
         phonesList.setOnItemLongClickListener(null);
 
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        // NOTE: implemented as in the first version, long click opens image
+
         // Show the phone picture
         startPictureActivity(PhoneDatabase.ALL_PHONES.get(position));
 

@@ -19,8 +19,10 @@ public class PhoneSpecActivity extends AppCompatActivity {
 
         // Get serializable Phone object from intent
         Phone phone = (Phone) getIntent().getSerializableExtra("phone");
-        if (phone == null)
+        if (phone == null) {
             finish();
+            return;
+        }
 
         // Retrieve views
         TextView brandModelText = findViewById(R.id.brandModelText);

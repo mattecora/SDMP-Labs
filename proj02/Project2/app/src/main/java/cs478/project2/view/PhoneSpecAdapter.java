@@ -14,6 +14,7 @@ import cs478.project2.model.PhoneSpec;
 
 public class PhoneSpecAdapter extends BaseAdapter {
 
+    // Using ViewHolder pattern to limit the number of findViewById() operations
     private class ViewHolder {
         final TextView specNameText, specValueText;
 
@@ -30,10 +31,12 @@ public class PhoneSpecAdapter extends BaseAdapter {
 
     private Context context;
     private List<PhoneSpec> specs;
+    private LayoutInflater inflater;
 
     public PhoneSpecAdapter(Context context, List<PhoneSpec> specs) {
         this.context = context;
         this.specs = specs;
+        this.inflater = LayoutInflater.from(context);
     }
 
     @Override
@@ -55,7 +58,7 @@ public class PhoneSpecAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         // Possibly recycle old view
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.phone_spec_item, parent, false);
+            convertView = inflater.inflate(R.layout.phone_spec_item, parent, false);
             convertView.setTag(new ViewHolder(convertView));
         }
 
