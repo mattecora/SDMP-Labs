@@ -1,0 +1,2 @@
+include ':project3c', ':project3a', ':project3b'
+rootProject.name='Project3'
