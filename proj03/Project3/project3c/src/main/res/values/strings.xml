@@ -9,4 +9,5 @@
 
     <string name="menu_option1">Open apps A and B</string>
     <string name="menu_option2">Close app</string>
+    <string name="no_permission_3b_msg">App 3B has not the required permission.</string>
 </resources>

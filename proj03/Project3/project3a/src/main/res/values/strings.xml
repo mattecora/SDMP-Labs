@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Project3A</string>
 
-    <string name="header1a_text">Project #3A</string>
-    <string name="header2a_text">CS 478 - Fall 2019</string>
-    <string name="header3a_text">Matteo Corain 650088272</string>
+    <string name="header1_text">Project #3A</string>
+    <string name="header2_text">CS 478 - Fall 2019</string>
+    <string name="header3_text">Matteo Corain 650088272</string>
     <string name="start_receiver_button_text">Start receiver</string>
     <string name="receiver_not_started_text">Receiver not started.</string>
     <string name="receiver_started_text">Receiver started!</string>

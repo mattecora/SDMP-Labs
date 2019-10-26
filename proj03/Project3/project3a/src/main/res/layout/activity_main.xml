@@ -7,11 +7,11 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/headerText1a"
+        android:id="@+id/headerText1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/header1a_text"
+        android:text="@string/header1_text"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textSize="30sp"
@@ -20,26 +20,26 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/headerText2a"
+        android:id="@+id/headerText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/header2a_text"
+        android:text="@string/header2_text"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerText1a" />
+        app:layout_constraintTop_toBottomOf="@+id/headerText1" />
 
     <TextView
         android:id="@+id/headerText3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/header3a_text"
+        android:text="@string/header3_text"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerText2a" />
+        app:layout_constraintTop_toBottomOf="@+id/headerText2" />
 
     <Button
         android:id="@+id/startReceiverButton"
