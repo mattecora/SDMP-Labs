@@ -12,11 +12,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import cs478.project3.R;
 import cs478.project3c.model.PhoneDatabase;
 
 public class MainActivity extends AppCompatActivity implements PhoneListFragment.OnPhoneListItemSelectedListener {
+
+    private final static String SHOW_WEBSITE_ACTION = "edu.uic.cs478.f19.showPhoneWebsite";
+    private final static String KABOOM_PERMISSION = "edu.uic.cs478.f19.kaboom";
 
     private PhoneListFragment phoneListFragment;
     private PhoneImageFragment phoneImageFragment;
@@ -54,14 +58,21 @@ public class MainActivity extends AppCompatActivity implements PhoneListFragment
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case R.id.option_open_AB:
-            sendOrderedBroadcast(new Intent(), "edu.uic.cs478.f19.kaboom");
-            break;
-        case R.id.option_close_app:
+        if (item.getItemId() == R.id.option_open_AB) {
+            // Check that an item has been selected
+            if (phoneListFragment.getSelectedItem() == null)
+                Toast.makeText(this, "Select a phone first!", Toast.LENGTH_SHORT).show();
+            else {
+                // Send a broadcast intent
+                Intent intent = new Intent();
+                intent.setAction(SHOW_WEBSITE_ACTION);
+                intent.putExtra("phoneUrl", phoneListFragment.getSelectedItem().getUrl());
+                sendOrderedBroadcast(intent, KABOOM_PERMISSION);
+            }
+        } else if (item.getItemId() == R.id.option_close_app) {
             finish();
-            break;
         }
+
         return true;
     }
 

@@ -66,4 +66,8 @@ public class PhoneListFragment extends Fragment {
         }
     }
 
+    public Phone getSelectedItem() {
+        return (Phone) phoneList.getItemAtPosition(phoneList.getCheckedItemPosition());
+    }
+
 }
