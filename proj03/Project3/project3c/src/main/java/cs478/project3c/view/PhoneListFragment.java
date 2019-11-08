@@ -57,13 +57,6 @@ public class PhoneListFragment extends Fragment {
             selection = position;
             this.listener.onPhoneListItemSelected(selection);
         });
-
-        // Check previous state
-        if (selection >= 0) {
-            // TODO: Understand why it is not working!
-            phoneList.setItemChecked(selection, true);
-            this.listener.onPhoneListItemSelected(selection);
-        }
     }
 
     public Phone getSelectedItem() {

@@ -9,5 +9,4 @@
     <string name="receiver_started_text">Receiver started!</string>
     <string name="error_permission_text">Permission not granted, receiver not started.</string>
     <string name="broadcast_processed_msg">Broadcast processed by 3B.</string>
-    <string name="no_permission_3a_msg">App 3A has not the required permission.</string>
 </resources>

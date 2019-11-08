@@ -1,11 +1,11 @@
 package cs478.project3c.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
@@ -31,12 +31,9 @@ public class MainActivity extends AppCompatActivity implements PhoneListFragment
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Check that app 3B has permission
-        PackageManager pm = getPackageManager();
-        if (pm.checkPermission(KABOOM_PERMISSION, "cs478.project3b") == PackageManager.PERMISSION_DENIED) {
-            Toast.makeText(this, R.string.no_permission_3b_msg, Toast.LENGTH_SHORT).show();
-            finish();
-        }
+        // Create the toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Retrieve or create fragments
         FragmentManager fm = getSupportFragmentManager();

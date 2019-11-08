@@ -24,8 +24,9 @@ public class PhoneWebsiteActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    public void onBackPressed() {
+        super.onBackPressed();
         finish();
     }
+
 }

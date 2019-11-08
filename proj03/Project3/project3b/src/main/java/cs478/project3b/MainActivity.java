@@ -24,13 +24,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Check that app 3A has permission
-        PackageManager pm = getPackageManager();
-        if (pm.checkPermission(KABOOM_PERMISSION, "cs478.project3a") == PackageManager.PERMISSION_DENIED) {
-            Toast.makeText(this, R.string.no_permission_3a_msg, Toast.LENGTH_SHORT).show();
-            finish();
-        }
-
         // Set button listener
         Button startReceiverButton = findViewById(R.id.startReceiverButton);
         startReceiverButton.setOnClickListener(v -> checkPermissionAndStartReceiver());
