@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private final static String KABOOM_PERMISSION = "edu.uic.cs478.f19.kaboom";
     private final static int KABOOM_REQUEST_CODE = 0;
 
+    private SecondReceiver receiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,19 +31,30 @@ public class MainActivity extends AppCompatActivity {
         startReceiverButton.setOnClickListener(v -> checkPermissionAndStartReceiver());
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Unregister receiver, if any
+        if (receiver != null)
+            unregisterReceiver(receiver);
+    }
+
     public void checkPermissionAndStartReceiver() {
         // Check for permission
         if (checkSelfPermission(KABOOM_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
-            // Permission granted, start the receiver
-            SecondReceiver receiver = new SecondReceiver();
-            registerReceiver(receiver, new IntentFilter(SHOW_WEBSITE_ACTION));
+            if (receiver == null) {
+                // Permission granted, start the receiver
+                receiver = new SecondReceiver();
+                registerReceiver(receiver, new IntentFilter(SHOW_WEBSITE_ACTION));
 
-            // Update the status TextView
-            TextView receiverStatusText = findViewById(R.id.receiverStatusText);
-            receiverStatusText.setText(R.string.receiver_started_text);
+                // Update the status TextView
+                TextView receiverStatusText = findViewById(R.id.receiverStatusText);
+                receiverStatusText.setText(R.string.receiver_started_text);
 
-            // Show toast
-            Toast.makeText(this, R.string.receiver_started_text, Toast.LENGTH_SHORT).show();
+                // Show toast
+                Toast.makeText(this, R.string.receiver_started_text, Toast.LENGTH_SHORT).show();
+            }
 
             // Start app 3B
             Intent intent = new Intent();
@@ -62,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
             checkPermissionAndStartReceiver();
         } else {
             Toast.makeText(this, R.string.error_permission_text, Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 
