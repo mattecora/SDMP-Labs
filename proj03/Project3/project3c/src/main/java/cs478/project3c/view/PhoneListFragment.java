@@ -57,6 +57,12 @@ public class PhoneListFragment extends Fragment {
             selection = position;
             this.listener.onPhoneListItemSelected(selection);
         });
+
+        // Restore previous selection
+        if (selection > 0) {
+            phoneList.setItemChecked(selection, true);
+            this.listener.onPhoneListItemSelected(selection);
+        }
     }
 
     public Phone getSelectedItem() {
