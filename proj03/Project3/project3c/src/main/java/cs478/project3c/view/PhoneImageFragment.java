@@ -27,15 +27,21 @@ public class PhoneImageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View retView = inflater.inflate(R.layout.fragment_phone_image, container, false);
-        phoneImage = retView.findViewById(R.id.phoneImage);
+        return inflater.inflate(R.layout.fragment_phone_image, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // Restore previous selection
+        phoneImage = getView().findViewById(R.id.phoneImage);
         if (imgResource != -1)
             phoneImage.setImageResource(imgResource);
-
-        return retView;
     }
 
     public void setPhoneImage(int imgResource) {
+        // Set the new image
         this.imgResource = imgResource;
         if (phoneImage != null)
             phoneImage.setImageResource(imgResource);
