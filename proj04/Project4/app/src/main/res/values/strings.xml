@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">Project4</string>
+
+    <string name="header1_text">Project #4</string>
+    <string name="header2_text">CS 478 - Fall 2019</string>
+    <string name="header3_text">Matteo Corain 650088272</string>
+
+    <string name="guessByGuess_btn_text">Start in guess-by-guess mode</string>
+    <string name="continuous_btn_text">Start in continuous mode</string>
+
     <string name="gopher_loc_text">Gopher is in (%d, %d)</string>
     <string name="guess_msg">Thread %d tried (%d, %d)</string>
     <string name="thread_won_msg">Thread %d won!</string>

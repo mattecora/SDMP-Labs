@@ -10,8 +10,11 @@ import cs478.project4.view.GameActivity;
 public abstract class SolverThread extends Thread {
 
     private int threadNo;
-    private Handler myGuessResultHandler, myNextGuessHandler, otherNextGuessHandler;
     private GameActivity gameActivity;
+
+    private Looper myLooper;
+    private Handler myGuessResultHandler, myNextGuessHandler, otherNextGuessHandler;
+
     private int[] nextGuess;
 
     public SolverThread(GameActivity gameActivity, int threadNo) {
@@ -23,8 +26,12 @@ public abstract class SolverThread extends Thread {
         return threadNo;
     }
 
-    public int getMode() {
-        return gameActivity.getMode();
+    public GameActivity getGameActivity() {
+        return gameActivity;
+    }
+
+    public Looper getMyLooper() {
+        return myLooper;
     }
 
     public Handler getMyGuessResultHandler() {
@@ -47,6 +54,9 @@ public abstract class SolverThread extends Thread {
     public void run() {
         // Prepare the looper
         Looper.prepare();
+
+        // Store looper's reference
+        myLooper = Looper.myLooper();
 
         // Create current thread's handlers
         myGuessResultHandler = new GuessResultHandler(this);

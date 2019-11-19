@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -64,6 +65,20 @@ public class GameActivity extends AppCompatActivity {
         // Start solver threads
         t1.start();
         t2.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // Stop the two threads' loopers
+        Looper l1 = t1.getMyLooper();
+        if (l1 != null)
+            l1.quit();
+
+        Looper l2 = t2.getMyLooper();
+        if (l2 != null)
+            l2.quit();
     }
 
     public int getMode() {
