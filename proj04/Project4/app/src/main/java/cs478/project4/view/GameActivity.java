@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +25,8 @@ public class GameActivity extends AppCompatActivity {
     private int mode;
     private Board board;
     private Handler uiHandler;
+    private SolverThread t1, t2;
+    private boolean t1Started, t2Started;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +58,8 @@ public class GameActivity extends AppCompatActivity {
         uiHandler = new Handler();
 
         // Create solver threads
-        SolverThread t1 = new SolverThreadFirst(this, 0);
-        SolverThread t2 = new SolverThreadSecond(this, 1);
+        t1 = new SolverThreadFirst(this, 0);
+        t2 = new SolverThreadSecond(this, 1);
 
         // Start solver threads
         t1.start();
@@ -73,6 +76,27 @@ public class GameActivity extends AppCompatActivity {
 
     public Handler getUiHandler() {
         return uiHandler;
+    }
+
+    public void onSolverThreadStarted(SolverThread solverThread) {
+        // Set other thread's handler in the two threads
+        if (solverThread == t1) {
+            t1Started = true;
+            t2.setOtherNextGuessHandler(t1.getMyNextGuessHandler());
+        } else if (solverThread == t2) {
+            t2Started = true;
+            t1.setOtherNextGuessHandler(t2.getMyNextGuessHandler());
+        }
+
+        if (t1Started && t2Started) {
+            // Insert the first message in the first thread's queue to start looping
+            t1.getMyNextGuessHandler().sendMessage(new Message());
+
+            if (mode == MODE_CONTINUOUS) {
+                // Unlock also the second thread
+                t2.getMyNextGuessHandler().sendMessage(new Message());
+            }
+        }
     }
 
 }

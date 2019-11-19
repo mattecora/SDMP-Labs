@@ -2,17 +2,15 @@ package cs478.project4.threading;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 
 import java.util.Random;
 
-import cs478.project4.model.Board;
 import cs478.project4.view.GameActivity;
 
 public abstract class SolverThread extends Thread {
 
     private int threadNo;
-    private Handler myHandler, otherHandler;
+    private Handler myGuessResultHandler, myNextGuessHandler, otherNextGuessHandler;
     private GameActivity gameActivity;
     private int[] nextGuess;
 
@@ -29,16 +27,20 @@ public abstract class SolverThread extends Thread {
         return gameActivity.getMode();
     }
 
-    public Handler getMyHandler() {
-        return myHandler;
+    public Handler getMyGuessResultHandler() {
+        return myGuessResultHandler;
     }
 
-    public Handler getOtherHandler() {
-        return otherHandler;
+    public Handler getMyNextGuessHandler() {
+        return myNextGuessHandler;
     }
 
-    public void setOtherHandler(Handler otherHandler) {
-        this.otherHandler = otherHandler;
+    public Handler getOtherNextGuessHandler() {
+        return otherNextGuessHandler;
+    }
+
+    public void setOtherNextGuessHandler(Handler otherNextGuessHandler) {
+        this.otherNextGuessHandler = otherNextGuessHandler;
     }
 
     @Override
@@ -46,13 +48,15 @@ public abstract class SolverThread extends Thread {
         // Prepare the looper
         Looper.prepare();
 
-        // Create current thread's handler
-        myHandler = new GuessResultHandler(this);
+        // Create current thread's handlers
+        myGuessResultHandler = new GuessResultHandler(this);
+        myNextGuessHandler = new NextGuessHandler(this);
 
-        // Insert a first message in the queue to start looping
-        Message startMsg = myHandler.obtainMessage();
-        startMsg.what = Board.INVALID;
-        startMsg.sendToTarget();
+        // Prepare an initial guess
+        prepareNextGuess(makeInitialGuess());
+
+        // Call the activity's callback
+        gameActivity.onSolverThreadStarted(this);
 
         // Run the looper
         Looper.loop();

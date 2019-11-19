@@ -33,7 +33,7 @@ public class GuessAndUpdateUiRunnable implements Runnable {
 
         // Inform the thread of the result
         if (result != Board.ALREADY_SOLVED)
-            solverThread.getMyHandler().sendMessage(msg);
+            solverThread.getMyGuessResultHandler().sendMessage(msg);
 
         // Do nothing if invalid or disaster
         if (result == Board.INVALID || result == Board.DISASTER)
