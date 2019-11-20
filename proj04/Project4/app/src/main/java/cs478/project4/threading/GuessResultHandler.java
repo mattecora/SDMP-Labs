@@ -54,9 +54,11 @@ public class GuessResultHandler extends Handler {
         }
 
         // Proceed to send next guess if mode is continuous, or unlock the other thread
-        if (solverThread.getGameActivity().getMode() == GameActivity.MODE_CONTINUOUS)
+        if (solverThread.getGameActivity().getMode() == GameActivity.MODE_CONTINUOUS &&
+                msg.what != Board.ALREADY_SOLVED && msg.what != Board.SUCCESS)
             solverThread.sendNextGuess();
-        else if (solverThread.getGameActivity().getMode() == GameActivity.MODE_GUESS_BY_GUESS)
+        else if (solverThread.getGameActivity().getMode() == GameActivity.MODE_GUESS_BY_GUESS &&
+                msg.what != Board.ALREADY_SOLVED && msg.what != Board.SUCCESS)
             solverThread.getOtherNextGuessHandler().sendMessage(Message.obtain());
     }
 
