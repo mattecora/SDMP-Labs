@@ -6,9 +6,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.widget.ArrayAdapter;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cs478.project4.R;
 import cs478.project4.model.Board;
@@ -28,6 +33,8 @@ public class GameActivity extends AppCompatActivity {
     private Handler uiHandler;
     private SolverThread t1, t2;
     private boolean t1Started, t2Started;
+    private List<String> moves;
+    private ArrayAdapter<String> movesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,14 @@ public class GameActivity extends AppCompatActivity {
                 boardLayout.addView(cell);
             }
         }
+
+        // Create moves list
+        moves = new ArrayList<>();
+        movesAdapter = new ArrayAdapter<>(this, R.layout.move_list_item, moves);
+
+        // Adapt moves list to list view
+        ListView movesList = findViewById(R.id.movesList);
+        movesList.setAdapter(movesAdapter);
 
         // Create playing field
         board = new Board(BOARD_SIZE);
@@ -91,6 +106,14 @@ public class GameActivity extends AppCompatActivity {
 
     public Handler getUiHandler() {
         return uiHandler;
+    }
+
+    public List<String> getMoves() {
+        return moves;
+    }
+
+    public ArrayAdapter<String> getMovesAdapter() {
+        return movesAdapter;
     }
 
     public void onSolverThreadStarted(SolverThread solverThread) {

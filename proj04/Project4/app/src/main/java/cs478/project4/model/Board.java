@@ -74,4 +74,34 @@ public class Board {
         return retVal;
     }
 
+    public static String getResultName(int result) {
+        String name = null;
+
+        switch (result) {
+            case ALREADY_SOLVED:
+                name = "already solved";
+                break;
+            case INVALID:
+                name = "invalid";
+                break;
+            case SUCCESS:
+                name = "success";
+                break;
+            case NEAR_MISS:
+                name = "near miss";
+                break;
+            case CLOSE_GUESS:
+                name = "close guess";
+                break;
+            case COMPLETE_MISS:
+                name = "complete miss";
+                break;
+            case DISASTER:
+                name = "disaster";
+                break;
+        }
+
+        return name;
+    }
+
 }

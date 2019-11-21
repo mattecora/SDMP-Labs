@@ -34,6 +34,11 @@ public class GuessAndUpdateUiRunnable implements Runnable {
         // Inform the thread of the result
         solverThread.getMyGuessResultHandler().sendMessage(msg);
 
+        // Add the move to the moves list
+        gameActivity.getMoves().add(gameActivity.getString(R.string.guess_msg,
+                solverThread.getThreadNo(), guess[0], guess[1], Board.getResultName(result)));
+        gameActivity.getMovesAdapter().notifyDataSetChanged();
+
         // Do nothing if invalid, disaster or already solved
         if (result == Board.INVALID || result == Board.DISASTER || result == Board.ALREADY_SOLVED)
             return;

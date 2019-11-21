@@ -9,6 +9,6 @@
     <string name="continuous_btn_text">Start in continuous mode</string>
 
     <string name="gopher_loc_text">Gopher is in (%d, %d)</string>
-    <string name="guess_msg">Thread %d tried (%d, %d)</string>
+    <string name="guess_msg">Thread %d guessed (%d, %d): %s</string>
     <string name="thread_won_msg">Thread %d won!</string>
 </resources>
