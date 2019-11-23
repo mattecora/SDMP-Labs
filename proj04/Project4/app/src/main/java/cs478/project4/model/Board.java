@@ -61,11 +61,11 @@ public class Board {
         }
 
         // Check near miss
-        else if (x + 1 == gopherX || x - 1 == gopherX || y + 1 == gopherY || y - 1 == gopherY)
+        else if ((x >= gopherX - 1 && x <= gopherX + 1) && (y >= gopherY - 1 && y <= gopherY + 1))
             retVal = NEAR_MISS;
 
         // Check close guess
-        else if (x + 2 == gopherX || x - 2 == gopherX || y + 2 == gopherY || y - 2 == gopherY)
+        else if ((x >= gopherX - 2 && x <= gopherX + 2) && (y >= gopherY - 2 && y <= gopherY + 2))
             retVal = CLOSE_GUESS;
 
         // Mark position as guessed

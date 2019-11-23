@@ -2,6 +2,7 @@ package cs478.project4.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -44,13 +45,29 @@ public class GameActivity extends AppCompatActivity {
         // Read mode from intent
         mode = getIntent().getIntExtra("mode", MODE_CONTINUOUS);
 
+        // Create playing field
+        board = new Board(BOARD_SIZE);
+
+        // Show the gopher location
+        TextView gopherLocText = findViewById(R.id.gopherLocText);
+        gopherLocText.setText(getString(R.string.gopher_loc_text, board.getGopherX(), board.getGopherY()));
+
         // Create board view
         GridLayout boardLayout = findViewById(R.id.boardGrid);
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
+                // Create the cell
                 ImageView cell = new ImageView(this);
+
+                // Set the image and the padding
                 cell.setImageResource(R.drawable.ic_undef);
                 cell.setPadding(10, 10, 10, 10);
+
+                // Set the background of the gopher's cell
+                if (i == board.getGopherX() && j == board.getGopherY())
+                    cell.setBackgroundColor(Color.GRAY);
+
+                // Add the cell to the layout
                 boardLayout.addView(cell);
             }
         }
@@ -62,13 +79,6 @@ public class GameActivity extends AppCompatActivity {
         // Adapt moves list to list view
         ListView movesList = findViewById(R.id.movesList);
         movesList.setAdapter(movesAdapter);
-
-        // Create playing field
-        board = new Board(BOARD_SIZE);
-
-        // Show the gopher location
-        TextView gopherLocText = findViewById(R.id.gopherLocText);
-        gopherLocText.setText(getString(R.string.gopher_loc_text, board.getGopherX(), board.getGopherY()));
 
         // Create handler
         uiHandler = new Handler();
