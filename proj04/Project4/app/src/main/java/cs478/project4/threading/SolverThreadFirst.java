@@ -2,7 +2,6 @@ package cs478.project4.threading;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import cs478.project4.view.GameActivity;
 
@@ -14,11 +13,10 @@ public class SolverThreadFirst extends SolverThread {
      * - Among all possible states, randomly choose one when guessing
      */
 
-    private Random rand = new Random();
     private List<int[]> possibleStates = new ArrayList<>(GameActivity.BOARD_SIZE * GameActivity.BOARD_SIZE);
 
     public SolverThreadFirst(GameActivity gameActivity, int threadNo) {
-        super(gameActivity, threadNo);
+        super(threadNo, gameActivity);
 
         // Populate the list of possible states
         for (int i = 0; i < GameActivity.BOARD_SIZE; i++)
@@ -29,7 +27,7 @@ public class SolverThreadFirst extends SolverThread {
     @Override
     public int[] makeInitialGuess() {
         // Return a random element from the possible states
-        return possibleStates.get(rand.nextInt(possibleStates.size()));
+        return possibleStates.get(getRand().nextInt(possibleStates.size()));
     }
 
     @Override
@@ -41,7 +39,7 @@ public class SolverThreadFirst extends SolverThread {
         // Remove old guess from possible states
         possibleStates.remove(oldGuess);
 
-        return possibleStates.get(rand.nextInt(possibleStates.size()));
+        return possibleStates.get(getRand().nextInt(possibleStates.size()));
     }
 
     @Override
@@ -57,7 +55,7 @@ public class SolverThreadFirst extends SolverThread {
         // Remove old guess from possible states
         possibleStates.remove(oldGuess);
 
-        return possibleStates.get(rand.nextInt(possibleStates.size()));
+        return possibleStates.get(getRand().nextInt(possibleStates.size()));
     }
 
     @Override
@@ -66,7 +64,7 @@ public class SolverThreadFirst extends SolverThread {
         possibleStates.remove(oldGuess);
 
         // Return a random element from the possible states
-        return possibleStates.get(rand.nextInt(possibleStates.size()));
+        return possibleStates.get(getRand().nextInt(possibleStates.size()));
     }
 
     @Override
@@ -75,7 +73,7 @@ public class SolverThreadFirst extends SolverThread {
         possibleStates.remove(oldGuess);
 
         // Return a random element from the possible states
-        return possibleStates.get(rand.nextInt(possibleStates.size()));
+        return possibleStates.get(getRand().nextInt(possibleStates.size()));
     }
 
 }

@@ -9,15 +9,20 @@ import cs478.project4.view.GameActivity;
 
 public abstract class SolverThread extends Thread {
 
+    private final static int MIN_SLEEP = 500;
+    private final static int MAX_RAND_SLEEP = 1500;
+
     private int threadNo;
     private GameActivity gameActivity;
+
+    private Random rand = new Random();
 
     private Looper myLooper;
     private Handler myGuessResultHandler, myNextGuessHandler, otherNextGuessHandler;
 
     private int[] nextGuess;
 
-    public SolverThread(GameActivity gameActivity, int threadNo) {
+    public SolverThread(int threadNo, GameActivity gameActivity) {
         this.gameActivity = gameActivity;
         this.threadNo = threadNo;
     }
@@ -28,6 +33,10 @@ public abstract class SolverThread extends Thread {
 
     public GameActivity getGameActivity() {
         return gameActivity;
+    }
+
+    public Random getRand() {
+        return rand;
     }
 
     public Looper getMyLooper() {
@@ -79,9 +88,8 @@ public abstract class SolverThread extends Thread {
     public void sendNextGuess() {
         if (nextGuess != null) {
             // Sleep for some time to allow user to notice changes
-            Random rand = new Random();
             try {
-                Thread.sleep(500 + rand.nextInt(1500));
+                Thread.sleep(MIN_SLEEP + rand.nextInt(MAX_RAND_SLEEP));
             } catch (InterruptedException e) {}
 
             // Post a GuessAndUpdateUiRunnable to the UI thread
