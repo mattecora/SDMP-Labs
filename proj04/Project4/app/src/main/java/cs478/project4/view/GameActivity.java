@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.DisplayMetrics;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -52,6 +54,15 @@ public class GameActivity extends AppCompatActivity {
         TextView gopherLocText = findViewById(R.id.gopherLocText);
         gopherLocText.setText(getString(R.string.gopher_loc_text, board.getGopherX(), board.getGopherY()));
 
+        // Get device width
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels;
+
+        // Compute view sizes
+        int cellSize = width / BOARD_SIZE;
+        int cellMarginSize = cellSize / 8;
+
         // Create board view
         GridLayout boardLayout = findViewById(R.id.boardGrid);
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -59,9 +70,10 @@ public class GameActivity extends AppCompatActivity {
                 // Create the cell
                 ImageView cell = new ImageView(this);
 
-                // Set the image and the padding
+                // Set the image, the size and the padding
                 cell.setImageResource(R.drawable.ic_undef);
-                cell.setPadding(10, 10, 10, 10);
+                cell.setLayoutParams(new ViewGroup.LayoutParams(cellSize, cellSize));
+                cell.setPadding(cellMarginSize, cellMarginSize, cellMarginSize, cellMarginSize);
 
                 // Set the background of the gopher's cell
                 if (i == board.getGopherX() && j == board.getGopherY())

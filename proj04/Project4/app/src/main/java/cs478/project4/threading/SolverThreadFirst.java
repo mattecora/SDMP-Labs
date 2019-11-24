@@ -8,6 +8,12 @@ import cs478.project4.view.GameActivity;
 
 public class SolverThreadFirst extends SolverThread {
 
+    /*
+     * First solver thread heuristic:
+     * - Maintain a list of possible states, updating it with the result of each guess
+     * - Among all possible states, randomly choose one when guessing
+     */
+
     private Random rand = new Random();
     private List<int[]> possibleStates = new ArrayList<>(GameActivity.BOARD_SIZE * GameActivity.BOARD_SIZE);
 
