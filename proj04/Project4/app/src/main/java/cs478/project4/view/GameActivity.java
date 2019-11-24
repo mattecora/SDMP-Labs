@@ -33,11 +33,13 @@ public class GameActivity extends AppCompatActivity {
 
     private int mode;
     private Board board;
+
+    private List<String> moves;
+    private ArrayAdapter<String> movesAdapter;
+
     private Handler uiHandler;
     private SolverThread t1, t2;
     private boolean t1Started, t2Started;
-    private List<String> moves;
-    private ArrayAdapter<String> movesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

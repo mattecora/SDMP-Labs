@@ -26,13 +26,9 @@ public class GuessAndUpdateUiRunnable implements Runnable {
         // Check guess result
         int result = gameActivity.getBoard().guess(guess[0], guess[1]);
 
-        // Create message
-        Message msg = new Message();
-        msg.what = result;
-        msg.obj = guess;
-
-        // Inform the thread of the result
-        solverThread.getMyGuessResultHandler().sendMessage(msg);
+        // Create and send result message
+        Message msg = solverThread.getMyGuessResultHandler().obtainMessage(result, guess);
+        msg.sendToTarget();
 
         // Add the move to the moves list
         gameActivity.getMoves().add(gameActivity.getString(R.string.guess_msg,

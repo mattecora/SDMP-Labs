@@ -59,7 +59,7 @@ public class GuessResultHandler extends Handler {
             solverThread.sendNextGuess();
         else if (solverThread.getGameActivity().getMode() == GameActivity.MODE_GUESS_BY_GUESS &&
                 msg.what != Board.ALREADY_SOLVED && msg.what != Board.SUCCESS)
-            solverThread.getOtherNextGuessHandler().sendMessage(Message.obtain());
+            solverThread.getOtherNextGuessHandler().obtainMessage().sendToTarget();
     }
 
 }
