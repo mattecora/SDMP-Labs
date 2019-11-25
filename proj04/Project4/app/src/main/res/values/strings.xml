@@ -12,4 +12,5 @@
     <string name="moves_list_text">Moves list:</string>
     <string name="guess_msg">Thread %d guessed (%d, %d): %s</string>
     <string name="thread_won_msg">Thread %d won!</string>
+    <string name="restart_btn">Restart</string>
 </resources>

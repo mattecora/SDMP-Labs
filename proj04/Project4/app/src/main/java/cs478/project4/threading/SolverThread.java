@@ -18,7 +18,7 @@ public abstract class SolverThread extends Thread {
     private Random rand = new Random();
 
     private Looper myLooper;
-    private Handler myGuessResultHandler, myNextGuessHandler, otherNextGuessHandler;
+    private Handler myGuessResultHandler, myNextGuessHandler;
 
     private int[] nextGuess;
 
@@ -39,10 +39,6 @@ public abstract class SolverThread extends Thread {
         return rand;
     }
 
-    public Looper getMyLooper() {
-        return myLooper;
-    }
-
     public Handler getMyGuessResultHandler() {
         return myGuessResultHandler;
     }
@@ -51,12 +47,13 @@ public abstract class SolverThread extends Thread {
         return myNextGuessHandler;
     }
 
-    public Handler getOtherNextGuessHandler() {
-        return otherNextGuessHandler;
-    }
+    @Override
+    public void interrupt() {
+        super.interrupt();
 
-    public void setOtherNextGuessHandler(Handler otherNextGuessHandler) {
-        this.otherNextGuessHandler = otherNextGuessHandler;
+        // Quit the thread's looper (if any)
+        if (myLooper != null)
+            myLooper.quit();
     }
 
     @Override
@@ -90,7 +87,9 @@ public abstract class SolverThread extends Thread {
             // Sleep for some time to allow user to notice changes
             try {
                 Thread.sleep(MIN_SLEEP + rand.nextInt(MAX_RAND_SLEEP));
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+                return;
+            }
 
             // Post a GuessAndUpdateUiRunnable to the UI thread
             gameActivity.getUiHandler().post(new GuessAndUpdateUiRunnable(nextGuess, gameActivity, this));

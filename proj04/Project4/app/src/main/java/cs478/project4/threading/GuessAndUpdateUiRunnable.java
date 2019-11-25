@@ -49,11 +49,27 @@ public class GuessAndUpdateUiRunnable implements Runnable {
         else if (solverThread.getThreadNo() == 1)
             cell.setImageResource(R.drawable.ic_cross);
 
-        // Show a toast message in case of winning
-        if (result == Board.SUCCESS)
+        // Unlock the other thread in guess-by-guess mode
+        if (gameActivity.getMode() == GameActivity.MODE_GUESS_BY_GUESS) {
+            if (solverThread.getThreadNo() == 0)
+                gameActivity.getT2().getMyNextGuessHandler().obtainMessage().sendToTarget();
+            else if (solverThread.getThreadNo() == 1)
+                gameActivity.getT1().getMyNextGuessHandler().obtainMessage().sendToTarget();
+        }
+
+        // In case of winning, end the game
+        if (result == Board.SUCCESS) {
+            // Show a toast message
             Toast.makeText(gameActivity,
                     gameActivity.getString(R.string.thread_won_msg, solverThread.getThreadNo()),
                     Toast.LENGTH_SHORT).show();
+
+            // Interrupt the other thread
+            if (solverThread.getThreadNo() == 0)
+                gameActivity.getT2().interrupt();
+            else if (solverThread.getThreadNo() == 1)
+                gameActivity.getT1().interrupt();
+        }
     }
 
 }

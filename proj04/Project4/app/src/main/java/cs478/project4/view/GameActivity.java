@@ -5,9 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridLayout;
@@ -49,9 +48,29 @@ public class GameActivity extends AppCompatActivity {
         // Read mode from intent
         mode = getIntent().getIntExtra("mode", MODE_CONTINUOUS);
 
-        // Create playing field
+        // Create UI thread's handler
+        uiHandler = new Handler();
+
+        // Create a new board
         board = new Board(BOARD_SIZE);
 
+        // Create and prepare the view
+        createAndPrepareView();
+
+        // Create and start solver threads
+        createAndStartThreads();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Interrupt the two threads
+        t1.interrupt();
+        t2.interrupt();
+    }
+
+    private void createAndPrepareView() {
         // Show the gopher location
         TextView gopherLocText = findViewById(R.id.gopherLocText);
         gopherLocText.setText(getString(R.string.gopher_loc_text, board.getGopherX(), board.getGopherY()));
@@ -67,6 +86,10 @@ public class GameActivity extends AppCompatActivity {
 
         // Create board view
         GridLayout boardLayout = findViewById(R.id.boardGrid);
+        boardLayout.removeAllViews();
+        boardLayout.setColumnCount(BOARD_SIZE);
+        boardLayout.setRowCount(BOARD_SIZE);
+
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 // Create the cell
@@ -93,10 +116,9 @@ public class GameActivity extends AppCompatActivity {
         // Adapt moves list to list view
         ListView movesList = findViewById(R.id.movesList);
         movesList.setAdapter(movesAdapter);
+    }
 
-        // Create handler
-        uiHandler = new Handler();
-
+    private void createAndStartThreads() {
         // Create solver threads
         t1 = new SolverThreadFirst(this, 0);
         t2 = new SolverThreadSecond(this, 1);
@@ -106,18 +128,43 @@ public class GameActivity extends AppCompatActivity {
         t2.start();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
+    public void onRestartButtonClick(View view) {
+        // Reset started flags
+        t1Started = false;
+        t2Started = false;
 
-        // Stop the two threads' loopers
-        Looper l1 = t1.getMyLooper();
-        if (l1 != null)
-            l1.quit();
+        // Interrupt the two threads
+        t1.interrupt();
+        t2.interrupt();
 
-        Looper l2 = t2.getMyLooper();
-        if (l2 != null)
-            l2.quit();
+        // Clear UI thread handler's queue
+        uiHandler.removeCallbacksAndMessages(null);
+
+        // Create a new board
+        board = new Board(BOARD_SIZE);
+
+        // Recreate view
+        createAndPrepareView();
+
+        // Recreate and start solver threads
+        createAndStartThreads();
+    }
+
+    public void onSolverThreadStarted(SolverThread solverThread) {
+        // Set other thread's handler in the two threads
+        if (solverThread == t1)
+            t1Started = true;
+        else if (solverThread == t2)
+            t2Started = true;
+
+        if (t1Started && t2Started) {
+            // Insert the first message in the first thread's queue to start looping
+            t1.getMyNextGuessHandler().obtainMessage().sendToTarget();
+
+            // If in continuous mode, unlock also the second thread
+            if (mode == MODE_CONTINUOUS)
+                t2.getMyNextGuessHandler().obtainMessage().sendToTarget();
+        }
     }
 
     public int getMode() {
@@ -128,10 +175,6 @@ public class GameActivity extends AppCompatActivity {
         return board;
     }
 
-    public Handler getUiHandler() {
-        return uiHandler;
-    }
-
     public List<String> getMoves() {
         return moves;
     }
@@ -140,25 +183,16 @@ public class GameActivity extends AppCompatActivity {
         return movesAdapter;
     }
 
-    public void onSolverThreadStarted(SolverThread solverThread) {
-        // Set other thread's handler in the two threads
-        if (solverThread == t1) {
-            t1Started = true;
-            t2.setOtherNextGuessHandler(t1.getMyNextGuessHandler());
-        } else if (solverThread == t2) {
-            t2Started = true;
-            t1.setOtherNextGuessHandler(t2.getMyNextGuessHandler());
-        }
+    public SolverThread getT1() {
+        return t1;
+    }
 
-        if (t1Started && t2Started) {
-            // Insert the first message in the first thread's queue to start looping
-            t1.getMyNextGuessHandler().sendMessage(new Message());
+    public SolverThread getT2() {
+        return t2;
+    }
 
-            if (mode == MODE_CONTINUOUS) {
-                // Unlock also the second thread
-                t2.getMyNextGuessHandler().sendMessage(new Message());
-            }
-        }
+    public Handler getUiHandler() {
+        return uiHandler;
     }
 
 }

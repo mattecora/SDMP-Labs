@@ -1,7 +1,6 @@
 package cs478.project4.threading;
 
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 
 import cs478.project4.model.Board;
@@ -23,8 +22,8 @@ public class GuessResultHandler extends Handler {
         switch (msg.what) {
             case Board.ALREADY_SOLVED:
             case Board.SUCCESS:
-                // Game is solved, terminate the loop
-                Looper.myLooper().quit();
+                // Game is solved, terminate the thread
+                solverThread.interrupt();
                 break;
 
             case Board.NEAR_MISS:
@@ -53,13 +52,10 @@ public class GuessResultHandler extends Handler {
                 break;
         }
 
-        // Proceed to send next guess if mode is continuous, or unlock the other thread
+        // Proceed to send next guess if mode is continuous
         if (solverThread.getGameActivity().getMode() == GameActivity.MODE_CONTINUOUS &&
                 msg.what != Board.ALREADY_SOLVED && msg.what != Board.SUCCESS)
             solverThread.sendNextGuess();
-        else if (solverThread.getGameActivity().getMode() == GameActivity.MODE_GUESS_BY_GUESS &&
-                msg.what != Board.ALREADY_SOLVED && msg.what != Board.SUCCESS)
-            solverThread.getOtherNextGuessHandler().obtainMessage().sendToTarget();
     }
 
 }

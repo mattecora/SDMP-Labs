@@ -47,7 +47,7 @@ public class Board {
             retVal = ALREADY_SOLVED;
 
         // Check invalid
-        if (x < 0 || x >= fieldSize || y < 0 || y >= fieldSize)
+        else if (x < 0 || x >= fieldSize || y < 0 || y >= fieldSize)
             retVal = INVALID;
 
         // Check disaster
