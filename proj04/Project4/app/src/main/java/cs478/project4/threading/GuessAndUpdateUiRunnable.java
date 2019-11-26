@@ -36,30 +36,20 @@ public class GuessAndUpdateUiRunnable implements Runnable {
         gameActivity.getMovesAdapter().notifyDataSetChanged();
 
         // Do nothing if invalid, disaster or already solved
-        if (result == Board.INVALID || result == Board.DISASTER || result == Board.ALREADY_SOLVED)
-            return;
+        if (result != Board.INVALID && result != Board.DISASTER && result != Board.ALREADY_SOLVED) {
+            // Retrieve corresponding view
+            ImageView cell = (ImageView) ((GridLayout) gameActivity.findViewById(R.id.boardGrid))
+                    .getChildAt(guess[0] * gameActivity.getBoard().getFieldSize() + guess[1]);
 
-        // Retrieve corresponding view
-        ImageView cell = (ImageView) ((GridLayout) gameActivity.findViewById(R.id.boardGrid))
-                .getChildAt(guess[0] * gameActivity.getBoard().getFieldSize() + guess[1]);
-
-        // Set the correct drawable
-        if (solverThread.getThreadNo() == 0)
-            cell.setImageResource(R.drawable.ic_circle);
-        else if (solverThread.getThreadNo() == 1)
-            cell.setImageResource(R.drawable.ic_cross);
-
-        // Unlock the other thread in guess-by-guess mode
-        if (gameActivity.getMode() == GameActivity.MODE_GUESS_BY_GUESS) {
+            // Set the correct drawable
             if (solverThread.getThreadNo() == 0)
-                gameActivity.getT2().getMyNextGuessHandler().obtainMessage().sendToTarget();
+                cell.setImageResource(R.drawable.ic_circle);
             else if (solverThread.getThreadNo() == 1)
-                gameActivity.getT1().getMyNextGuessHandler().obtainMessage().sendToTarget();
+                cell.setImageResource(R.drawable.ic_cross);
         }
 
-        // In case of winning, end the game
         if (result == Board.SUCCESS) {
-            // Show a toast message
+            // In case of winning, show a toast message
             Toast.makeText(gameActivity,
                     gameActivity.getString(R.string.thread_won_msg, solverThread.getThreadNo()),
                     Toast.LENGTH_SHORT).show();
@@ -69,6 +59,12 @@ public class GuessAndUpdateUiRunnable implements Runnable {
                 gameActivity.getT2().interrupt();
             else if (solverThread.getThreadNo() == 1)
                 gameActivity.getT1().interrupt();
+        } else if (gameActivity.getMode() == GameActivity.MODE_GUESS_BY_GUESS) {
+            // Unlock the other thread in guess-by-guess mode
+            if (solverThread.getThreadNo() == 0)
+                gameActivity.getT2().getMyNextGuessHandler().obtainMessage().sendToTarget();
+            else if (solverThread.getThreadNo() == 1)
+                gameActivity.getT1().getMyNextGuessHandler().obtainMessage().sendToTarget();
         }
     }
 

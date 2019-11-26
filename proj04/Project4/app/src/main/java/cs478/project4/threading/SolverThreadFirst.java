@@ -48,10 +48,6 @@ public class SolverThreadFirst extends SolverThread {
         possibleStates.removeIf(state -> (state[0] < oldGuess[0] - 2 || state[0] > oldGuess[0] + 2)
                 || (state[1] < oldGuess[1] - 2 || state[1] > oldGuess[1] + 2));
 
-        // Remove all elements within the first-level frame
-        possibleStates.removeIf(state -> (state[0] >= oldGuess[0] - 1 && state[0] <= oldGuess[0] + 1)
-                && (state[1] >= oldGuess[1] - 1 && state[1] <= oldGuess[1] + 1));
-
         // Remove old guess from possible states
         possibleStates.remove(oldGuess);
 
