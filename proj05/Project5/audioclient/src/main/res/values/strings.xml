@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">AudioClient</string>
+
+    <string name="header1_text">Project #5</string>
+    <string name="header2_text">CS 478 - Fall 2019</string>
+    <string name="header3_text">Matteo Corain 650088272</string>
+
+    <string name="start_service_btn">Start service</string>
+    <string name="stop_service_btn">Stop service</string>
+    <string name="song_number_text">Song number:</string>
+    <string name="play_btn">Play</string>
+    <string name="pause_btn">Pause</string>
+    <string name="resume_btn">Resume</string>
+    <string name="stop_btn">Stop</string>
+
+    <string name="service_cannot_bind_msg">Service cannot be bound.</string>
+    <string name="track_not_avail_msg">Requested track is not available.</string>
+    <string name="invalid_num_msg">Not a valid number.</string>
+    <string name="service_killed_msg">Bound service has been killed.</string>
+    <string name="song_ended_msg">Song has ended, service unbound.</string>
+    <string name="song_started_msg">Song started. Duration: %s.</string>
+</resources>

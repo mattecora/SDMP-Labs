@@ -1,0 +1,2 @@
+include ':clipserver', ':audioclient'
+rootProject.name='Project5'

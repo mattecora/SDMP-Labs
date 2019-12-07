@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ClipServer</string>
+    <string name="notification_title">ClipServer playing</string>
+    <string name="notification_content_text">Use AudioClient to access reproduction functionalities.</string>
+</resources>
