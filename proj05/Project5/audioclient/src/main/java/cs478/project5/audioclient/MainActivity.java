@@ -1,5 +1,6 @@
 package cs478.project5.audioclient;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ComponentName;
@@ -76,7 +77,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        // Unregister the receiver
         unregisterReceiver(receiver);
+
+        // If bound, unbind
+        if (isBound)
+            unbindService(connection);
     }
 
     public void onStartServiceButtonClick(View view) {
@@ -111,14 +118,27 @@ public class MainActivity extends AppCompatActivity {
                 // Call the remote service
                 int duration = clipService.play(songNum);
 
-                if (duration > 0)
+                // Check results
+                if (duration > 0) {
+                    // Show confirmation message
                     Toast.makeText(MainActivity.this,
                             getString(R.string.song_started_msg, formatDuration(duration)), Toast.LENGTH_SHORT).show();
-                else
+                } else {
+                    // Show error message
                     Toast.makeText(MainActivity.this,
                             getString(R.string.track_not_avail_msg), Toast.LENGTH_SHORT).show();
+
+                    // Unbind the service
+                    unbindService(connection);
+                    isBound = false;
+                }
             } catch (NumberFormatException e) {
+                // Show error message
                 Toast.makeText(MainActivity.this, getString(R.string.invalid_num_msg), Toast.LENGTH_SHORT).show();
+
+                // Unbind the service
+                unbindService(connection);
+                isBound = false;
             } catch (RemoteException e) {
                 handleKilledService();
             }
@@ -161,19 +181,26 @@ public class MainActivity extends AppCompatActivity {
         // Check that the service is bound
         if (!isBound) return;
 
-        // Stop the playback
-        try {
-            clipService.stop();
-        } catch (RemoteException e) {
-            handleKilledService();
-        }
+        // Show the alert dialog
+        new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.stop_confirm_msg))
+                .setPositiveButton("OK", (dialog, which) -> {
+                        // Stop the playback
+                        try {
+                            clipService.stop();
+                        } catch (RemoteException e) {
+                            handleKilledService();
+                        }
 
-        // Unbind the service
-        unbindService(connection);
-        isBound = false;
+                        // Unbind the service
+                        unbindService(connection);
+                        isBound = false;
 
-        // Enable/disable buttons
-        updateUi();
+                        // Enable/disable buttons
+                        updateUi();
+                }).setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 
     public Intent getClipServiceIntent() {

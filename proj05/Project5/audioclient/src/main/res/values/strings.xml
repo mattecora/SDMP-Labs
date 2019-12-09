@@ -19,4 +19,5 @@
     <string name="service_killed_msg">Bound service has been killed.</string>
     <string name="song_ended_msg">Song has ended, service unbound.</string>
     <string name="song_started_msg">Song started. Duration: %s.</string>
+    <string name="stop_confirm_msg">Playback will be stopped. Confirm?</string>
 </resources>
