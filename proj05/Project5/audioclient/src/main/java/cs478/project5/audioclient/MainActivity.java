@@ -19,9 +19,12 @@ import cs478.project5.aidl.ClipServiceInterface;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final static String SERVICE_PKG = "cs478.project5.clipserver";
-    private final static String SERVICE_CLS = "cs478.project5.clipserver.ClipService";
-    private final static String ACTION_SONG_END = "cs478.project5.ACTION_SONG_END";
+    private static final String SERVICE_PKG = "cs478.project5.clipserver";
+    private static final String SERVICE_CLS = "cs478.project5.clipserver.ClipService";
+
+    private static final String ACTION_SONG_END = "cs478.project5.ACTION_SONG_END";
+    private static final String ACTION_STATUS_REQ = "cs478.project5.ACTION_STATUS_REQ";
+    private static final String ACTION_STATUS_RESP = "cs478.project5.ACTION_STATUS_RESP";
 
     private EditText songNumInput;
     private Button startServiceButton, stopServiceButton,
@@ -30,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private ClipServiceInterface clipService;
     private boolean isStarted, isBound;
 
-    private SongEndReceiver receiver;
+    private SongEndReceiver songEndReceiver;
+    private StatusResponseReceiver statusResponseReceiver;
 
     private final ServiceConnection connection = new ServiceConnection() {
         @Override
@@ -57,9 +61,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Start the song end receiver
-        receiver = new SongEndReceiver(this);
-        registerReceiver(receiver, new IntentFilter(ACTION_SONG_END));
+        // Register the song end receiver
+        songEndReceiver = new SongEndReceiver(this);
+        registerReceiver(songEndReceiver, new IntentFilter(ACTION_SONG_END));
+
+        // Register the status response receiver
+        statusResponseReceiver = new StatusResponseReceiver(this);
+        registerReceiver(statusResponseReceiver, new IntentFilter(ACTION_STATUS_RESP));
 
         // Get references to views
         songNumInput = findViewById(R.id.songNumInput);
@@ -70,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
         resumeButton = findViewById(R.id.resumeButton);
         stopButton = findViewById(R.id.stopButton);
 
+        // Check whether it was started from the notification
+        Intent statusIntent = new Intent(ACTION_STATUS_REQ);
+        sendBroadcast(statusIntent);
+
         // Enable/disable buttons
         updateUi();
     }
@@ -78,8 +90,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        // Unregister the receiver
-        unregisterReceiver(receiver);
+        // Unregister the receivers
+        unregisterReceiver(songEndReceiver);
+        unregisterReceiver(statusResponseReceiver);
 
         // If bound, unbind
         if (isBound)
@@ -126,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // Show error message
                     Toast.makeText(MainActivity.this,
-                            getString(R.string.track_not_avail_msg), Toast.LENGTH_SHORT).show();
+                            getString(R.string.track_not_avail_msg, -duration), Toast.LENGTH_SHORT).show();
 
                     // Unbind the service
                     unbindService(connection);
@@ -185,19 +198,19 @@ public class MainActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setMessage(getString(R.string.stop_confirm_msg))
                 .setPositiveButton("OK", (dialog, which) -> {
-                        // Stop the playback
-                        try {
-                            clipService.stop();
-                        } catch (RemoteException e) {
-                            handleKilledService();
-                        }
+                    // Stop the playback
+                    try {
+                        clipService.stop();
+                    } catch (RemoteException e) {
+                        handleKilledService();
+                    }
 
-                        // Unbind the service
-                        unbindService(connection);
-                        isBound = false;
+                    // Unbind the service
+                    unbindService(connection);
+                    isBound = false;
 
-                        // Enable/disable buttons
-                        updateUi();
+                    // Enable/disable buttons
+                    updateUi();
                 }).setNegativeButton("Cancel", null)
                 .create()
                 .show();

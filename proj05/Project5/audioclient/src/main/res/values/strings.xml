@@ -14,7 +14,7 @@
     <string name="stop_btn">Stop</string>
 
     <string name="service_cannot_bind_msg">Service cannot be bound.</string>
-    <string name="track_not_avail_msg">Requested track is not available.</string>
+    <string name="track_not_avail_msg">Requested track is not available. Valid tracks: %d.</string>
     <string name="invalid_num_msg">Not a valid number.</string>
     <string name="service_killed_msg">Bound service has been killed.</string>
     <string name="song_ended_msg">Song has ended, service unbound.</string>
