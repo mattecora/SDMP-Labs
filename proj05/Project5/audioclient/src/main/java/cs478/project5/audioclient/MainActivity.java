@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             playButton, pauseButton, resumeButton, stopButton;
 
     private ClipServiceInterface clipService;
-    private boolean isStarted, isBound;
+    private boolean isStarted, isBound, isPlaying;
 
     private SongEndReceiver songEndReceiver;
     private StatusResponseReceiver statusResponseReceiver;
@@ -109,12 +109,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onStopServiceButtonClick(View view) {
-        // Stop the service
-        stopService(getClipServiceIntent());
-        isStarted = false;
+        // Show the alert dialog
+        new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.stop_confirm_msg))
+                .setPositiveButton("OK", (dialog, which) -> {
+                    // Stop the service
+                    stopService(getClipServiceIntent());
+                    isStarted = false;
+                    isBound = false;
 
-        // Enable/disable buttons
-        updateUi();
+                    // Enable/disable buttons
+                    updateUi();
+                }).setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 
     public void onPlayButtonClick(View view) {
@@ -136,6 +144,9 @@ public class MainActivity extends AppCompatActivity {
                     // Show confirmation message
                     Toast.makeText(MainActivity.this,
                             getString(R.string.song_started_msg, formatDuration(duration)), Toast.LENGTH_SHORT).show();
+
+                    // Set playing flag
+                    isPlaying = true;
                 } else {
                     // Show error message
                     Toast.makeText(MainActivity.this,
@@ -168,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
         // Pause the playback
         try {
             clipService.pause();
+            isPlaying = false;
         } catch (RemoteException e) {
             handleKilledService();
         }
@@ -182,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
         // Resume the playback
         try {
             clipService.resume();
+            isPlaying = true;
         } catch (RemoteException e) {
             handleKilledService();
         }
@@ -194,26 +207,20 @@ public class MainActivity extends AppCompatActivity {
         // Check that the service is bound
         if (!isBound) return;
 
-        // Show the alert dialog
-        new AlertDialog.Builder(this)
-                .setMessage(getString(R.string.stop_confirm_msg))
-                .setPositiveButton("OK", (dialog, which) -> {
-                    // Stop the playback
-                    try {
-                        clipService.stop();
-                    } catch (RemoteException e) {
-                        handleKilledService();
-                    }
+        // Stop the playback
+        try {
+            clipService.stop();
+            isPlaying = false;
+        } catch (RemoteException e) {
+            handleKilledService();
+        }
 
-                    // Unbind the service
-                    unbindService(connection);
-                    isBound = false;
+        // Unbind the service
+        unbindService(connection);
+        isBound = false;
 
-                    // Enable/disable buttons
-                    updateUi();
-                }).setNegativeButton("Cancel", null)
-                .create()
-                .show();
+        // Enable/disable buttons
+        updateUi();
     }
 
     public Intent getClipServiceIntent() {
@@ -235,10 +242,10 @@ public class MainActivity extends AppCompatActivity {
         playButton.setEnabled(isStarted);
 
         // Enable/disable pauseButton
-        pauseButton.setEnabled(isStarted && isBound);
+        pauseButton.setEnabled(isStarted && isBound && isPlaying);
 
         // Enable/disable resumeButton
-        resumeButton.setEnabled(isStarted && isBound);
+        resumeButton.setEnabled(isStarted && isBound && !isPlaying);
 
         // Enable/disable stopButton
         stopButton.setEnabled(isStarted && isBound);
